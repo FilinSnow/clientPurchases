@@ -1,0 +1,151 @@
+*, *::after, *::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    background: #D5E7F2;
+}
+
+.container {
+    max-width: 1040px;
+    margin: 50px auto 0;
+}
+
+.title {
+    text-align: center;
+}
+
+.title h1 {
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.create__task {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    /* margin: 30px 0 0; */
+}
+
+.create__container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 30px 0 0;
+    justify-content: center;
+}
+
+.text {
+    margin-bottom: 5px;
+    color: #808A91;
+}
+
+.create__button {
+    align-self: flex-end;
+}
+
+.create__button button {
+    background: #74C2A4;
+    border: none;
+    border-radius: 3px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.input__val input {
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid gray;
+    outline: none;
+}
+.inp {
+    padding: 5px;
+    max-width: 120px;
+    border-radius: 3px;
+    border: 1px solid gray;
+    outline: none;
+    align-self: center; 
+}
+.task__count-buy {
+    margin: 0 15px;
+}
+
+.count__buy-input {}
+
+.buy__input input {
+    max-width: 600px;
+}
+
+.create__button button {
+    padding: 10px;
+}
+
+.create__task {
+    max-width: 517px;
+    margin: 0 auto;
+}
+
+.create__container {}
+
+.count__amount {
+    /* text-align: center; */
+    align-self: flex-end;
+    /* max-width: 600px; */
+    margin-top: 30px;
+    display: flex;
+}
+
+.container__tasks {
+    margin-top: 30px;
+}
+
+.img {
+    width: 22px;
+    height: 22px;
+    background-size: cover;
+    object-fit: cover;
+    background-position: 50% 50%;
+    cursor: pointer;
+}
+
+.img {}
+
+.hidden {
+    display: none;
+}
+
+.container__purchase {
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.container__text-date {
+    display: flex;
+    align-self: center;
+}
+
+.container__text-date div:first-child {
+    /* margin-right: 5px; */
+}
+.container__text-date div:nth-child(2) {
+    margin: 0 5px;
+}
+.container__price-buttons {
+    display: flex;
+    align-self: center;
+}
+
+.container__price {
+    display: flex;
+    align-self: center;
+    margin-right: 50px;
+}
+.container__price div:nth-child(1) {
+    margin-right: 5px;
+}
