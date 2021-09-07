@@ -3,7 +3,6 @@ let whereWasBuy = document.querySelector('.buy__input input');
 let amountWasBuy = document.querySelector('.count__buy-input input');
 let valueInputWasBuy = '';
 let valueInputAmountWasBuy = '';
-// const addBuyCart = document.querySelector('.create__button button');
 const containerTasks = document.querySelector('.container__tasks');
 let amount = document.querySelector('.amount span');
 let sumPurchases = 0;
@@ -14,7 +13,7 @@ const day = dateObj.getUTCDate();
 const year = dateObj.getUTCFullYear();
 const newDate = `${("0" + day).slice(-2)}.${("0" + month).slice(-2)}.${year}`;
 
-window.onload = function () {
+window.onload = () => {
   render();
 }
 
@@ -171,10 +170,10 @@ const render = async () => {
   amount.innerHTML = `${sumPurchases} р.`;
 
   // ================ arrShopping need map by list
-  whereWasBuy.addEventListener('keyup', function(e) {
+  whereWasBuy.addEventListener('keyup', function (e) {
     valueInputWasBuy = e.target.value;
   });
-  amountWasBuy.addEventListener('keyup', function(e) {
+  amountWasBuy.addEventListener('keyup', function (e) {
     valueInputAmountWasBuy = e.target.value;
   });
 }
