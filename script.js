@@ -3,6 +3,7 @@ let whereWasBuy = document.querySelector('.buy__input input');
 let amountWasBuy = document.querySelector('.count__buy-input input');
 let valueInputWasBuy = '';
 let valueInputAmountWasBuy = '';
+let containerPurchase;
 const containerTasks = document.querySelector('.container__tasks');
 let amount = document.querySelector('.amount span');
 let sumPurchases = 0;
@@ -30,7 +31,7 @@ const render = async () => {
   let countBeforeItem = 1;
   arrShopping.map(item => {
     //containerPurchase
-    const containerPurchase = document.createElement('div');
+    containerPurchase = document.createElement('div');
     containerPurchase.className = 'container__purchase';
 
     //containerTextDate
@@ -115,166 +116,44 @@ const render = async () => {
 
     //events ================================
 
-    editImg.addEventListener('click', function () {
-      editImg.classList.add('hidden');
-      delImg.classList.add('hidden');
-      doneImg.classList.remove('hidden');
-      cancelImg.classList.remove('hidden');
-      inputForText.classList.remove('hidden');
-      inputForText.value = textDiv.innerHTML;
-      textDiv.classList.add('hidden');
+    editImg.addEventListener('click', () => {
+      editValue(editImg, delImg, doneImg, cancelImg,
+        inputForText, textDiv, inputForDate,
+        dateDiv, inputForPrice, priceDiv);
+    });
 
-      inputForDate.classList.remove('hidden');
-      inputForDate.value = dateDiv.innerHTML;
-      dateDiv.classList.add('hidden');
-
-      inputForPrice.classList.remove('hidden');
-      inputForPrice.value = priceDiv.innerHTML;
-      priceDiv.classList.add('hidden');
-    })
     cancelImg.addEventListener('click', () => {
-      doneImg.classList.add('hidden');
-      cancelImg.classList.add('hidden');
-      inputForText.classList.add('hidden');
-      textDiv.classList.remove('hidden');
-      inputForDate.classList.add('hidden');
-      dateDiv.classList.remove('hidden');
-      inputForPrice.classList.add('hidden');
-      priceDiv.classList.remove('hidden');
-      editImg.classList.remove('hidden');
-      delImg.classList.remove('hidden');
-    })
-    doneImg.addEventListener('click', async () => {
-      doneImg.classList.add('hidden');
-      cancelImg.classList.add('hidden');
-      inputForText.classList.add('hidden');
-      textDiv.classList.remove('hidden');
-      inputForDate.classList.add('hidden');
-      dateDiv.classList.remove('hidden');
-      inputForPrice.classList.add('hidden');
-      priceDiv.classList.remove('hidden');
-      editImg.classList.remove('hidden');
-      delImg.classList.remove('hidden');
-      
-      const data = {
-        _id: item['_id'],
-        text: inputForText.value,
-        date: inputForDate.value,
-        price: inputForPrice.value,
-      }
-      await fetch('http://localhost:8000/updatePurchase',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        },
-      );
-      return render();
+      cancelActions(doneImg, cancelImg, inputForText,
+        textDiv, inputForDate, dateDiv,
+        inputForPrice, priceDiv, editImg,
+        delImg);
     });
 
-    delImg.addEventListener('click', async () => {
-      const resp = await fetch(`http://localhost:8000/deletePurchase/${item['_id']}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-        },
-      );
-      const res = await resp;
-      if (res) {
-        return render();
-      }
+    doneImg.addEventListener('click', () => {
+      saveChangedPurchase(doneImg, cancelImg, inputForText,
+        textDiv, inputForDate, dateDiv,
+        inputForPrice, priceDiv, editImg,
+        delImg, item);
     });
 
-    textDiv.addEventListener('dblclick', async () => {
-      inputForText.classList.remove('hidden');
-      inputForText.value = textDiv.innerHTML;
-      textDiv.classList.add('hidden');
-      inputForText.focus();
-      inputForText.onfocus = (e) => {
-        e.target.select();
-      }
-      inputForText.addEventListener('focusout', async () => {
-        inputForText.classList.add('hidden');
-        textDiv.classList.remove('hidden');
-        const data = {
-          _id: item['_id'],
-          text: inputForText.value,
-        }
-        await fetch('http://localhost:8000/updatePurchase',
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          },
-        );
-        return render();
-      })
+    delImg.addEventListener('click', () => {
+      delPurchase(item);
     });
 
-    dateDiv.addEventListener('dblclick', async () => {
-      inputForDate.classList.remove('hidden');
-      inputForDate.value = dateDiv.innerHTML;
-      dateDiv.classList.add('hidden');
-      inputForDate.focus();
-      inputForDate.onfocus = (e) => {
-        e.target.select();
-      }
-      inputForDate.addEventListener('focusout', async () => {
-        inputForDate.classList.add('hidden');
-        dateDiv.classList.remove('hidden');
-        const data = {
-          _id: item['_id'],
-          date: inputForDate.value,
-        }
-        await fetch('http://localhost:8000/updatePurchase',
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          },
-        );
-        return render();
-      })
+    textDiv.addEventListener('dblclick', () => {
+      changeTextByClick(inputForText, textDiv, item)
     });
 
-    priceDiv.addEventListener('dblclick', async () => {
-      inputForPrice.classList.remove('hidden');
-      inputForPrice.value = priceDiv.innerHTML;
-      priceDiv.classList.add('hidden');
-      inputForPrice.focus();
-      inputForPrice.onfocus = (e) => {
-        e.target.select();
-      }
-      inputForPrice.addEventListener('focusout', async () => {
-        inputForPrice.classList.add('hidden');
-        priceDiv.classList.remove('hidden');
-        const data = {
-          _id: item['_id'],
-          price: inputForPrice.value,
-        }
-        await fetch('http://localhost:8000/updatePurchase',
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          },
-        );
-        return render();
-      })
+    dateDiv.addEventListener('dblclick', () => {
+      changeDateByClick(inputForDate, dateDiv, item);
+    });
+
+    priceDiv.addEventListener('dblclick', () => {
+      changePriceByClick(inputForPrice, priceDiv, item);
     });
     sumPurchases += item.price;
     countBeforeItem++;
-  })
+  });
   amount.innerHTML = `${sumPurchases} р.`;
 
   // ================ arrShopping need map by list
@@ -315,4 +194,175 @@ const addNewCost = () => {
   } else {
     return alert('Enter data');
   }
+}
+
+const editValue = (editImg, delImg, doneImg, cancelImg,
+  inputForText, textDiv, inputForDate,
+  dateDiv, inputForPrice, priceDiv) => {
+
+  editImg.classList.add('hidden');
+  delImg.classList.add('hidden');
+  doneImg.classList.remove('hidden');
+  cancelImg.classList.remove('hidden');
+  inputForText.classList.remove('hidden');
+  inputForText.value = textDiv.innerHTML;
+  textDiv.classList.add('hidden');
+
+  inputForDate.classList.remove('hidden');
+  inputForDate.value = dateDiv.innerHTML;
+  dateDiv.classList.add('hidden');
+
+  inputForPrice.classList.remove('hidden');
+  inputForPrice.value = priceDiv.innerHTML;
+  priceDiv.classList.add('hidden');
+}
+
+const cancelActions = (doneImg, cancelImg, inputForText,
+  textDiv, inputForDate, dateDiv,
+  inputForPrice, priceDiv, editImg,
+  delImg) => {
+
+  doneImg.classList.add('hidden');
+  cancelImg.classList.add('hidden');
+  inputForText.classList.add('hidden');
+  textDiv.classList.remove('hidden');
+  inputForDate.classList.add('hidden');
+  dateDiv.classList.remove('hidden');
+  inputForPrice.classList.add('hidden');
+  priceDiv.classList.remove('hidden');
+  editImg.classList.remove('hidden');
+  delImg.classList.remove('hidden');
+}
+
+const saveChangedPurchase = async (doneImg, cancelImg, inputForText,
+  textDiv, inputForDate, dateDiv,
+  inputForPrice, priceDiv, editImg,
+  delImg, item) => {
+
+  doneImg.classList.add('hidden');
+  cancelImg.classList.add('hidden');
+  inputForText.classList.add('hidden');
+  textDiv.classList.remove('hidden');
+  inputForDate.classList.add('hidden');
+  dateDiv.classList.remove('hidden');
+  inputForPrice.classList.add('hidden');
+  priceDiv.classList.remove('hidden');
+  editImg.classList.remove('hidden');
+  delImg.classList.remove('hidden');
+
+  const data = {
+    _id: item['_id'],
+    text: inputForText.value,
+    date: inputForDate.value,
+    price: inputForPrice.value,
+  }
+  await fetch('http://localhost:8000/updatePurchase',
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    },
+  );
+  return render();
+}
+
+const delPurchase = async (item) => {
+  const resp = await fetch(`http://localhost:8000/deletePurchase/${item['_id']}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    },
+  );
+  const res = await resp;
+  if (res) {
+    return render();
+  }
+}
+
+const changeTextByClick = async (inputForText, textDiv, item) => {
+  inputForText.classList.remove('hidden');
+  inputForText.value = textDiv.innerHTML;
+  textDiv.classList.add('hidden');
+  inputForText.focus();
+  inputForText.onfocus = (e) => {
+    e.target.select();
+  }
+  inputForText.addEventListener('focusout', async () => {
+    inputForText.classList.add('hidden');
+    textDiv.classList.remove('hidden');
+    const data = {
+      _id: item['_id'],
+      text: inputForText.value,
+    }
+    await fetch('http://localhost:8000/updatePurchase',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      },
+    );
+    return render();
+  })
+}
+
+const changeDateByClick = async (inputForDate, dateDiv, item) => {
+  inputForDate.classList.remove('hidden');
+  inputForDate.value = dateDiv.innerHTML;
+  dateDiv.classList.add('hidden');
+  inputForDate.focus();
+  inputForDate.onfocus = (e) => {
+    e.target.select();
+  }
+  inputForDate.addEventListener('focusout', async () => {
+    inputForDate.classList.add('hidden');
+    dateDiv.classList.remove('hidden');
+    const data = {
+      _id: item['_id'],
+      date: inputForDate.value,
+    }
+    await fetch('http://localhost:8000/updatePurchase',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      },
+    );
+    return render();
+  })
+}
+
+const changePriceByClick = async (inputForPrice, priceDiv, item) => {
+  inputForPrice.classList.remove('hidden');
+  inputForPrice.value = priceDiv.innerHTML;
+  priceDiv.classList.add('hidden');
+  inputForPrice.focus();
+  inputForPrice.onfocus = (e) => {
+    e.target.select();
+  }
+  inputForPrice.addEventListener('focusout', async () => {
+    inputForPrice.classList.add('hidden');
+    priceDiv.classList.remove('hidden');
+    const data = {
+      _id: item['_id'],
+      price: inputForPrice.value,
+    }
+    await fetch('http://localhost:8000/updatePurchase',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      },
+    );
+    return render();
+  })
 }
