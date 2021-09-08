@@ -26,7 +26,7 @@ const render = async () => {
     }
   )
   const result = await response.json();
-  arrShopping = result.data || ['asd']
+  arrShopping = result.data || []
   containerTasks.innerHTML = '';
   let index = 1;
   arrShopping.map(item => {
