@@ -42,6 +42,7 @@ const render = async () => {
     containerTextDate.appendChild(divNum);
     //textDiv
     const textDiv = document.createElement('div');
+    textDiv.className = 'style__text';
     textDiv.innerHTML = `${item.text}`;
     //inputForText
     let inputForText = document.createElement('input');
@@ -49,6 +50,7 @@ const render = async () => {
     inputForText.placeholder = 'Куда было потрачено';
     //dateDiv
     const dateDiv = document.createElement('div');
+    dateDiv.className = 'style__date'
     dateDiv.innerHTML = item.date;
     // inputForDate
     let inputForDate = document.createElement('input');
@@ -67,6 +69,7 @@ const render = async () => {
     containerPrice.className = 'container__price';
     //priceDiv
     const priceDiv = document.createElement('div');
+    priceDiv.className = 'style__price';
     priceDiv.innerHTML = `${item.price}`;
     containerPrice.appendChild(priceDiv);
     //inputForPrice
@@ -83,12 +86,12 @@ const render = async () => {
     //editImg
     const editImg = document.createElement('img');
     editImg.src = '/img/edit.svg';
-    editImg.className = 'img';
+    editImg.className = 'img mr10';
     containerButtons.appendChild(editImg);
     //doneImg
     const doneImg = document.createElement('img');
     doneImg.src = '/img/check-mark.svg';
-    doneImg.className = 'img hidden';
+    doneImg.className = 'img hidden mr10';
     containerButtons.appendChild(doneImg);
     //delImg
     const delImg = document.createElement('img');
@@ -304,7 +307,11 @@ const addNewCost = () => {
         },
         body: JSON.stringify(data)
       },
-    ).then(() => render());
+    ).then(() => {
+      valueInputWasBuy = '';
+      valueInputAmountWasBuy = '';
+      render();
+    });
   } else {
     return alert('Enter data');
   }
