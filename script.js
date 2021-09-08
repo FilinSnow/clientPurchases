@@ -28,7 +28,7 @@ const render = async () => {
   const result = await response.json();
   arrShopping = result.data || ['asd']
   containerTasks.innerHTML = '';
-  let countBeforeItem = 1;
+  let index = 1;
   arrShopping.map(item => {
     //containerPurchase
     containerPurchase = document.createElement('div');
@@ -39,7 +39,7 @@ const render = async () => {
     containerTextDate.className = 'container__text-date';
     //num before item
     const divNum = document.createElement('div');
-    divNum.innerHTML = `${countBeforeItem})`;
+    divNum.innerHTML = `${index})`;
     containerTextDate.appendChild(divNum);
     //textDiv
     const textDiv = document.createElement('div');
@@ -152,7 +152,7 @@ const render = async () => {
       changePriceByClick(inputForPrice, priceDiv, item);
     });
     sumPurchases += item.price;
-    countBeforeItem++;
+    index++;
   });
   amount.innerHTML = `${sumPurchases} р.`;
 
