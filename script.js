@@ -67,7 +67,7 @@ const render = async () => {
     containerPrice.className = 'container__price';
     //priceDiv
     const priceDiv = document.createElement('div');
-    priceDiv.innerHTML = `${item.price} `;
+    priceDiv.innerHTML = `${item.price}`;
     containerPrice.appendChild(priceDiv);
     //inputForPrice
     let inputForPrice = document.createElement('input');
@@ -75,7 +75,7 @@ const render = async () => {
     inputForPrice.placeholder = 'Цена';
     containerPrice.appendChild(inputForPrice);
     const divCurrency = document.createElement('div');
-    divCurrency.innerHTML = ' р.';
+    divCurrency.innerHTML = 'р.';
     containerPrice.appendChild(divCurrency);
     //containerImg
     const containerButtons = document.createElement('div');
@@ -95,6 +95,11 @@ const render = async () => {
     delImg.src = '/img/delete.svg';
     delImg.className = 'img';
     containerButtons.appendChild(delImg);
+    //cancelImg
+    const cancelImg = document.createElement('img');
+    cancelImg.src = '/img/close.svg';
+    cancelImg.className = 'img hidden';
+    containerButtons.appendChild(cancelImg);
 
     containerPriceButtons.appendChild(containerPrice);
     containerPriceButtons.appendChild(containerButtons);
@@ -111,6 +116,7 @@ const render = async () => {
       editImg.classList.add('hidden');
       delImg.classList.add('hidden');
       doneImg.classList.remove('hidden');
+      cancelImg.classList.remove('hidden');
       inputForText.classList.remove('hidden');
       inputForText.value = textDiv.innerHTML;
       textDiv.classList.add('hidden');
@@ -123,8 +129,9 @@ const render = async () => {
       inputForPrice.value = priceDiv.innerHTML;
       priceDiv.classList.add('hidden');
     })
-    doneImg.addEventListener('click', async function () {
+    cancelImg.addEventListener('click', () => {
       doneImg.classList.add('hidden');
+      cancelImg.classList.add('hidden');
       inputForText.classList.add('hidden');
       textDiv.classList.remove('hidden');
       inputForDate.classList.add('hidden');
@@ -133,6 +140,19 @@ const render = async () => {
       priceDiv.classList.remove('hidden');
       editImg.classList.remove('hidden');
       delImg.classList.remove('hidden');
+    })
+    doneImg.addEventListener('click', async () => {
+      doneImg.classList.add('hidden');
+      cancelImg.classList.add('hidden');
+      inputForText.classList.add('hidden');
+      textDiv.classList.remove('hidden');
+      inputForDate.classList.add('hidden');
+      dateDiv.classList.remove('hidden');
+      inputForPrice.classList.add('hidden');
+      priceDiv.classList.remove('hidden');
+      editImg.classList.remove('hidden');
+      delImg.classList.remove('hidden');
+      
       const data = {
         _id: item['_id'],
         text: inputForText.value,
@@ -149,7 +169,8 @@ const render = async () => {
         },
       );
       return render();
-    })
+    });
+
     delImg.addEventListener('click', async () => {
       const resp = await fetch(`http://localhost:8000/deletePurchase/${item['_id']}`,
         {
@@ -163,6 +184,90 @@ const render = async () => {
       if (res) {
         return render();
       }
+    });
+
+    textDiv.addEventListener('dblclick', async () => {
+      inputForText.classList.remove('hidden');
+      inputForText.value = textDiv.innerHTML;
+      textDiv.classList.add('hidden');
+      inputForText.focus();
+      inputForText.onfocus = (e) => {
+        e.target.select();
+      }
+      inputForText.addEventListener('focusout', async () => {
+        inputForText.classList.add('hidden');
+        textDiv.classList.remove('hidden');
+        const data = {
+          _id: item['_id'],
+          text: inputForText.value,
+        }
+        await fetch('http://localhost:8000/updatePurchase',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          },
+        );
+        return render();
+      })
+    });
+
+    dateDiv.addEventListener('dblclick', async () => {
+      inputForDate.classList.remove('hidden');
+      inputForDate.value = dateDiv.innerHTML;
+      dateDiv.classList.add('hidden');
+      inputForDate.focus();
+      inputForDate.onfocus = (e) => {
+        e.target.select();
+      }
+      inputForDate.addEventListener('focusout', async () => {
+        inputForDate.classList.add('hidden');
+        dateDiv.classList.remove('hidden');
+        const data = {
+          _id: item['_id'],
+          date: inputForDate.value,
+        }
+        await fetch('http://localhost:8000/updatePurchase',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          },
+        );
+        return render();
+      })
+    });
+
+    priceDiv.addEventListener('dblclick', async () => {
+      inputForPrice.classList.remove('hidden');
+      inputForPrice.value = priceDiv.innerHTML;
+      priceDiv.classList.add('hidden');
+      inputForPrice.focus();
+      inputForPrice.onfocus = (e) => {
+        e.target.select();
+      }
+      inputForPrice.addEventListener('focusout', async () => {
+        inputForPrice.classList.add('hidden');
+        priceDiv.classList.remove('hidden');
+        const data = {
+          _id: item['_id'],
+          price: inputForPrice.value,
+        }
+        await fetch('http://localhost:8000/updatePurchase',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          },
+        );
+        return render();
+      })
     });
     sumPurchases += item.price;
     countBeforeItem++;
