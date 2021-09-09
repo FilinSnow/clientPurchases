@@ -8,11 +8,12 @@ const containerTasks = document.querySelector('.container__tasks');
 let amount = document.querySelector('.amount span');
 let sumPurchases = 0;
 
+
 const dateObj = new Date();
 const month = dateObj.getUTCMonth() + 1; //months from 1-12
 const day = dateObj.getUTCDate();
 const year = dateObj.getUTCFullYear();
-const newDate = `${("0" + day).slice(-2)}.${("0" + month).slice(-2)}.${year}`;
+const newDate = `${("0" + day).slice(-2)}-${("0" + month).slice(-2)}-${year}`;
 
 window.onload = () => {
   render();
@@ -46,21 +47,27 @@ const render = async () => {
     textDiv.className = 'style__text';
     textDiv.innerHTML = `${item.text}`;
     //inputForText
+    let divInputText = document.createElement('div');
     let inputForText = document.createElement('input');
     inputForText.className = 'inp hidden';
     inputForText.placeholder = 'Куда было потрачено';
+    divInputText.appendChild(inputForText);
     //dateDiv
     const dateDiv = document.createElement('div');
     dateDiv.className = 'style__date'
     dateDiv.innerHTML = item.date;
     // inputForDate
+    let divInputDate = document.createElement('div');
     let inputForDate = document.createElement('input');
+    inputForDate.type = 'date';
+    inputForDate.min = `2017-04-01`
     inputForDate.className = 'inp hidden';
     inputForDate.placeholder = 'Дата';
+    divInputDate.appendChild(inputForDate);
     containerTextDate.appendChild(textDiv);
-    containerTextDate.appendChild(inputForText);
+    containerTextDate.appendChild(divInputText);
     containerTextDate.appendChild(dateDiv);
-    containerTextDate.appendChild(inputForDate);
+    containerTextDate.appendChild(divInputDate);
 
     //containerPriceButtons
     const containerPriceButtons = document.createElement('div');

@@ -67,12 +67,12 @@ body {
 }
 
 .inp {
-  padding: 5px;
-  max-width: 120px;
+  padding: 15px;
+  max-width: 200px;
   border-radius: 3px;
   border: 1px solid gray;
   outline: none;
-  align-self: center;
+  font-size: 18px;
 }
 
 .task__count-buy {
